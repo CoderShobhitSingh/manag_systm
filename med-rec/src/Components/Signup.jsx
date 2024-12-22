@@ -1,15 +1,40 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Signup = () => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault(); // Prevent form submission default behavior
-    console.log({ fname, lname, email, password }); // Log the form data
+
+    // Basic validation
+    if (!fname || !lname || !email || !password) {
+      alert("All fields are required.");
+      return;
+    }
+
+    axios
+      .post("http://localhost:3002/signup", { fname, lname, email, password })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("User created successfully");
+          alert("Signup successful! Redirecting to Home...");
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          alert("Email already exists.");
+        } else {
+          console.error("Error during signup:", err);
+          alert("An error occurred. Please try again later.");
+        }
+      });
   };
 
   return (
