@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+    const [fname, setFname] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -10,10 +11,12 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3002/login", { email, password })
+      .post("http://localhost:3002/login", { email,fname, password })
       .then((response) => {
         if (response.data === "Success") {
+          
           navigate("/Navbar");
+          alert(`Login Successfull ✅`);
         } else {
           alert("Login Failed");
         }

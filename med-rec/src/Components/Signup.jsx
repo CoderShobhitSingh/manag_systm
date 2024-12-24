@@ -23,7 +23,8 @@ const Signup = () => {
       .then((response) => {
         if (response.status === 201) {
           console.log("User created successfully");
-          alert("Signup successful! Redirecting to Home...");
+          alert("✅ Signup successful!");
+
           navigate("/login");
         }
       })
