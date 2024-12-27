@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 
 const Signup = () => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
@@ -14,26 +16,26 @@ const Signup = () => {
 
     // Basic validation
     if (!fname || !lname || !email || !password) {
-      alert("All fields are required.");
+      alert('All fields are required.');
       return;
     }
 
     axios
-      .post("http://localhost:3002/signup", { fname, lname, email, password })
+      .post('http://localhost:3002/signup', { fname, lname, email, password })
       .then((response) => {
         if (response.status === 201) {
-          console.log("User created successfully");
-          alert("✅ Signup successful!");
+          console.log('User created successfully');
+          alert('✅ Signup successful!');
 
-          navigate("/login");
+          navigate('/login');
         }
       })
       .catch((err) => {
         if (err.response && err.response.status === 400) {
-          alert("Email already exists.");
+          alert('Email already exists.');
         } else {
-          console.error("Error during signup:", err);
-          alert("An error occurred. Please try again later.");
+          console.error('Error during signup:', err);
+          alert('An error occurred. Please try again later.');
         }
       });
   };
@@ -67,14 +69,27 @@ const Signup = () => {
             placeholder="Enter your email ID"
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="relative w-full">
+            <input
+              type={showPassword ? 'text' : 'password'} // Toggle input type
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center"
+            >
+              {showPassword ? (
+                <EyeSlashIcon className="h-5 w-5 text-gray-500" />
+              ) : (
+                <EyeIcon className="h-5 w-5 text-gray-500" />
+              )}
+            </button>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300"

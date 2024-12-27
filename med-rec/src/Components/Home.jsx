@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <>
-    <h1 className='flex justify-center items-center pt-8 font-bold	text-5xl	'>MedRec</h1>
-    <div className='flex justify-center items-center min-h-screen justify-evenly'>
+    <div className='flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500'>
+    <h1 className='text-5xl mt-10 font-bold'>MedRec</h1>
+
+    <div className='flex justify-center items-center min-h-screen justify-evenly h-64 w-full'>
       {/* New User Section */}
       <Link to="/signup" className='flex justify-center items-center flex-col cursor-pointer'>
         <div>
@@ -25,6 +27,7 @@ const Home = () => {
           <h2 className='text-2xl font-extrabold italic'>Existing User</h2>
         </div>
       </Link>
+    </div>
     </div>
     </>
   );

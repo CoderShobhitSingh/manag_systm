@@ -94,3 +94,21 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Routes
+app.get("/items", async (req, res) => {
+  const items = await Item.find();
+  res.json(items);
+});
+
+app.post("/items", async (req, res) => {
+  const newItem = new Item(req.body);
+  await newItem.save();
+  res.json(newItem);
+});
+
+app.put("/items/:id", async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+  const updatedItem = await Item.findByIdAndUpdate(id, { $inc: { quantity: -quantity } }, { new: true });
+  res.json(updatedItem);
+});
